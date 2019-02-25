@@ -2,16 +2,25 @@
   "name": "hexagon-map",
   "version": "1.0.0",
   "description": "Hexagonal grid map display",
+  "author": "Ogus",
+  "license": "WTFPL",
+  "main": "src/hexagon-map.js",
   "scripts": {
-    "build": "terser src/hexagon-map.js -c -m reserved=['HexagonMap'] > src/hexagon-map.min.js"
+    "build": "terser src/hexagon-map.js -c -m reserved=['HexagonMap','Hexagon'] > src/hexagon-map.min.js"
   },
+  "devDependencies": {
+    "terser": "^3.9.2"
+  },
+  "keywords": [
+    "random",
+    "dice",
+    "roll",
+    "rng",
+    "mini-dice"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ogus/hexagon-map.git"
   },
-  "author": "Ogus",
-  "license": "ISC",
-  "devDependencies": {
-    "terser": "^3.9.2"
-  }
+  "homepage": "https://github.com/ogus/hexagon-map#readme"
 }
