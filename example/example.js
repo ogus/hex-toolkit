@@ -1,6 +1,5 @@
 (function (window, document) {
   var canvas, ctx;
-  var map;
 
   window.onload = function () {
     canvas = document.getElementById("canvas");
@@ -11,54 +10,52 @@
     ctx.lineWidth = 1;
 
     ImageContext.setDirectory("assets/");
-    ImageContext.load(["tile_01.png", "tile_02.png", "tile_04.png"]).then(init);
+    ImageContext.load(["tile_01.png", "tile_02.png", "tile_04.png"]).then(createHexGrid);
   }
 
-  function init() {
-    let map = new HexagonMap();
-    map.setOrigin(canvas.width*0.5, canvas.height*0.5);
-    map.setTileSize(50, 50);
-
-    map.create("hexagon", 2, function (q, r, hex) {
-      let rand = Math.random();
+  function createHexGrid() {
+    var hexGrid = HexToolkit.Generator.hexagon(5, function (hexagon) {
+      var rand = Math.random();
       if (rand < 0.333) {
-        hex.image = ImageContext.get("tile_01.png");
+        hexagon.image = ImageContext.get("tile_01.png");
       }
       else if (rand < 0.666) {
-        hex.image = ImageContext.get("tile_02.png");
+        hexagon.image = ImageContext.get("tile_02.png");
       }
       else {
-        hex.image = ImageContext.get("tile_04.png");
+        hexagon.image = ImageContext.get("tile_04.png");
       }
-      return hex;
+      return hexagon;
     });
+    hexGrid.setOrigin(canvas.width*0.5, canvas.height*0.5);
+    hexGrid.setHexSize(50, 50);
 
-    // map.drawImages(ctx, function (q, r, hex) {
-    //   return hex.image;
+    hexGrid.drawImages(ctx, function (hex) {
+      return hex.image;
+    });
+    // hexGrid.drawShapes(ctx, function () {
+    //   ctx.stroke();
     // });
 
-    map.drawShapes(ctx, function () {
-      ctx.stroke();
-    })
-
-    canvas.onclick = (e) => {
-      let position = getMousePosition(e);
-      let hex = map.getHexagon(position.x, position.y);
+    canvas.onclick = function (e) {
+      var position = getMousePosition(e);
+      var hex = hexGrid.getHexagon(position.x, position.y);
+      console.log(hex);
       if (hex != null) {
-        hex.neighborsInReach(1);
+        hex.neighborsInRing(2);
       }
 
-
-      // let n = map.getNeighbors(hex);
-      // console.log(n);
+      var neighbors = hexGrid.getNeighbors(hex);
+      console.log(neighbors);
     }
   }
 
-  function getMousePosition(e){
+  function getMousePosition(e) {
     var rect = canvas.getBoundingClientRect();
-    var pos_x = Math.round((e.clientX - rect.left)/(rect.right - rect.left) * canvas.width);
-    var pos_y = Math.round((e.clientY - rect.top)/(rect.bottom - rect.top) * canvas.height);
-    return {x: pos_x, y: pos_y};
+    return {
+      x: Math.round(canvas.width * (e.clientX - rect.left) / (rect.right - rect.left)),
+      y: Math.round(canvas.height * (e.clientY - rect.top) / (rect.bottom - rect.top))
+    };
   }
 
 })(window, window.document);

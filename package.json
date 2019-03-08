@@ -1,26 +1,32 @@
 {
-  "name": "hexagon-map",
-  "version": "1.0.0",
-  "description": "Hexagonal grid map display",
+  "name": "hex-toolkit",
+  "version": "0.9.0",
+  "description": "A simple toolkit for hexagonal grid layout",
   "author": "Ogus",
   "license": "WTFPL",
-  "main": "src/hexagon-map.js",
+  "main": "src/hex-toolkit.js",
   "scripts": {
-    "build": "terser src/hexagon-map.js -c -m reserved=['HexagonMap','Hexagon'] > src/hexagon-map.min.js"
+    "test": "node test/test.js | faucet",
+    "build": "uglifyjs src/hex-toolkit.js -c -m reserved=['HexTookit','Hexagon','Grid','Generator'] -o src/hex-toolkit.min.js"
   },
   "devDependencies": {
-    "terser": "^3.9.2"
+    "faucet": "0.0.1",
+    "tape": "^4.10.1",
+    "uglify-js": "^3.4.9"
   },
   "keywords": [
-    "random",
-    "dice",
-    "roll",
-    "rng",
-    "mini-dice"
+    "hexagon",
+    "hex",
+    "grid",
+    "hex-grid",
+    "layout",
+    "map"
+    "tiled-map",
+    "canvas"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ogus/hexagon-map.git"
+    "url": "https://github.com/ogus/hex-toolkit.git"
   },
-  "homepage": "https://github.com/ogus/hexagon-map#readme"
+  "homepage": "https://github.com/ogus/hex-toolkit#readme"
 }
